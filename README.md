@@ -117,8 +117,8 @@ Built by **Faiza Mehram**. I build custom AI tools: RAG systems, document intell
 Want TreeRoute for your lab or team, a custom feature, or something similar built for your documents?
 
 - 📧 Email: mehramfaiza@gmail.com
-- 💼 LinkedIn: https://www.linkedin.com/in/your-profile
-- 🌐 Portfolio: https://your-username.github.io
+- 💼 LinkedIn: [LinkedIn](https://www.linkedin.com/in/faiza-mehram-069ab3241/)
+- 🌐 Portfolio: [GitHub](https://github.com/faiza-mehram437)
 
 ## License
 
