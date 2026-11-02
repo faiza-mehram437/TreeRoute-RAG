@@ -11,6 +11,7 @@ Secrets (Streamlit Cloud -> your app -> Settings -> Secrets):
 
 import importlib
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -30,15 +31,26 @@ os.environ.setdefault("TREEROUTE_CHROMA_DIR", os.path.join(data_dir, "chroma"))
 os.environ.setdefault("TREEROUTE_LIBRARY_DIR", os.path.join(data_dir, "library"))
 
 
+class InstallError(Exception):
+    """Installing TreeRoute failed; the message is safe to show (no token in it)."""
+
+
+def hide_token(text: str) -> str:
+    return re.sub(r"x-access-token:[^@\s]+@", "x-access-token:***@", text)
+
+
 @st.cache_resource(show_spinner=False)
 def install_treeroute() -> None:
-    """Install the latest TreeRoute once per app start, so "Reboot app" picks up new code."""
+    """Install the latest TreeRoute once per app start, so "Reboot app" picks up new code.
+
+    Failures raise instead of returning, so they are not cached and the next run retries.
+    """
     token, repo = os.environ.get("GITHUB_TOKEN"), os.environ.get("GITHUB_REPO")
     # TREEROUTE_PIP_SPEC lets you test this launcher against a local copy of the code.
     spec = os.environ.get("TREEROUTE_PIP_SPEC")
     if not spec:
         if not (token and repo):
-            raise RuntimeError("Set the GITHUB_TOKEN and GITHUB_REPO secrets.")
+            raise InstallError("The GITHUB_TOKEN and GITHUB_REPO secrets are not set.")
         spec = f"treeroute @ git+https://x-access-token:{token}@github.com/{repo}.git"
     # Dependencies come from requirements.txt; only TreeRoute itself is (re)installed here.
     result = subprocess.run(
@@ -47,15 +59,21 @@ def install_treeroute() -> None:
         text=True,
     )
     if result.returncode != 0:
-        # Never print pip's output here: it contains the URL with the token.
-        raise RuntimeError(
-            "Could not install TreeRoute from GitHub. "
-            "Check the GITHUB_TOKEN (not expired, read access) and GITHUB_REPO secrets."
-        )
+        output = hide_token((result.stderr or "") + (result.stdout or "")).strip()
+        raise InstallError(output[-3000:] or f"pip exited with code {result.returncode}")
     importlib.invalidate_caches()
 
 
-install_treeroute()
+try:
+    install_treeroute()
+except InstallError as error:
+    st.error(
+        "Could not install TreeRoute from the private GitHub repo. Check that the "
+        "GITHUB_TOKEN secret is valid with read access to that repo, that GITHUB_REPO "
+        "is spelled correctly, and that the repo contains the code. Details:"
+    )
+    st.code(str(error), language=None)
+    st.stop()
 
 from treeroute.webapp import main  # noqa: E402  (importable only after the install above)
 
