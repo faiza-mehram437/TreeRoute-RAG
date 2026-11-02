@@ -112,7 +112,7 @@ Want TreeRoute for your lab or team, a custom feature, or something similar buil
 
 - 📧 Email: mehramfaiza@gmail.com
 - 💼 LinkedIn: [LinkedIn](https://www.linkedin.com/in/faiza-mehram-069ab3241/)
-- 🌐 Portfolio: [GitHub(https://github.com/faiza-mehram437)
+- 🌐 Portfolio: [GitHub](https://github.com/faiza-mehram437)
 
 ## License
 
