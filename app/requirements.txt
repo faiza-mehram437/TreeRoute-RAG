@@ -1,0 +1,19 @@
+# Installed when the app is built. TreeRoute itself is installed at startup from the
+# private repo (see streamlit_app.py); these are its dependencies for the web app.
+pip
+streamlit>=1.40
+requests>=2.32
+anthropic>=1.0
+chromadb>=1.0
+fastembed>=0.5
+fonttools>=4.50
+google-genai>=1.0
+httpx>=0.27
+pillow>=10.3
+pydantic-settings>=2.4
+pypdf>=5.0
+pypdfium2>=4.30
+python-dotenv>=1.0
+fastapi>=0.115
+python-multipart>=0.0.9
+uvicorn>=0.30

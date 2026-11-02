@@ -1,0 +1,9 @@
+# TreeRoute theme: green and white, matching the logo.
+[theme]
+base = "light"
+primaryColor = "#2E7D32"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#E8F5E9"
+textColor = "#1B3A1F"
+linkColor = "#2E7D32"
+borderColor = "#C8E6C9"

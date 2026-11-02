@@ -102,6 +102,12 @@ pip install -r requirements.txt
 pytest
 ```
 
+## Live demo
+
+The live app runs on Streamlit Community Cloud from [`app/streamlit_app.py`](app/streamlit_app.py).
+That launcher holds no application code: when the app starts, it installs TreeRoute from a
+private repository using a read-only token kept in Streamlit's secrets.
+
 The tests run automatically on every push ([workflow](.github/workflows/ci.yml)).
 
 ## Contact
